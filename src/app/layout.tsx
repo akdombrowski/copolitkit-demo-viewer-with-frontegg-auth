@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "@copilotkit/react-ui/styles.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { FronteggAppProvider } from "@frontegg/nextjs/app";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,19 +25,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const authOptions = {
+    keepSessionAlive: true, // Uncomment this in order to maintain the session alive
+  };
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <FronteggAppProvider
+          authOptions={authOptions}
+          hostedLoginBox={true}
         >
-          {children}
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </FronteggAppProvider>
       </body>
     </html>
   );
