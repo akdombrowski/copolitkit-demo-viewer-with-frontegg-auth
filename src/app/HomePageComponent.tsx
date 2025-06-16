@@ -13,7 +13,6 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { LoginButton } from "@/components/ui/loginBtn";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, Code, Book, Network, Bot, Sparkles } from "lucide-react";
 import { CodeEditor } from "@/components/code-editor/code-editor";
@@ -314,12 +313,7 @@ export default function Home({ defaultDemoId }: HomePageProps = {}) {
                 )}
                 <h1 className="text-lg font-extralight text-foreground">Interactive Demos</h1>
               </div>
-              <div>
-                <ThemeToggle />
-              </div>
-              <div>
-                <LoginButton />
-              </div>
+              <ThemeToggle />
             </div>
           </div>
           {/* === Restore Controls Section (Tabs) === */}

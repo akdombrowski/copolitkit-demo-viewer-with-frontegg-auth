@@ -3,28 +3,28 @@ This serves our agents through a FastAPI server.
 """
 
 import os
-from dotenv import load_dotenv
-load_dotenv() # pylint: disable=wrong-import-position
 
-from fastapi import FastAPI
+from dotenv import load_dotenv
+
+load_dotenv()  # pylint: disable=wrong-import-position
+
 import uvicorn
-from copilotkit.integrations.fastapi import add_fastapi_endpoint
 from copilotkit import CopilotKitRemoteEndpoint
 from copilotkit.crewai import CrewAIAgent
+from copilotkit.integrations.fastapi import add_fastapi_endpoint
+from fastapi import FastAPI
 
 from demo.crewai_agentic_chat.agent import AgenticChatFlow
 from demo.crewai_agentic_generative_ui.agent import AgenticGenerativeUIFlow
 from demo.crewai_human_in_the_loop.agent import HumanInTheLoopFlow
 from demo.crewai_multi_agent_flows.agent import (
-    MultiAgentWriterFlow,
-    MultiAgentResearcherFlow,
     MultiAgentCriticFlow,
+    MultiAgentResearcherFlow,
+    MultiAgentWriterFlow,
 )
 from demo.crewai_predictive_state_updates.agent import PredictiveStateUpdatesFlow
 from demo.crewai_shared_state.agent import SharedStateFlow
 from demo.crewai_tool_based_generative_ui.agent import ToolBasedGenerativeUIFlow
-from demo.crewai_w_auth.agent import WithAuth
-
 
 app = FastAPI()
 sdk = CopilotKitRemoteEndpoint(
@@ -39,19 +39,16 @@ sdk = CopilotKitRemoteEndpoint(
             description="An example for a tool-based generative UI flow.",
             flow=ToolBasedGenerativeUIFlow(),
         ),
-
         CrewAIAgent(
             name="agentic_generative_ui",
             description="An example for an agentic generative UI flow.",
             flow=AgenticGenerativeUIFlow(),
         ),
-
         CrewAIAgent(
             name="human_in_the_loop",
             description="An example for a human in the loop flow.",
             flow=HumanInTheLoopFlow(),
         ),
-
         CrewAIAgent(
             name="shared_state",
             description="An example for a shared state flow.",
@@ -77,20 +74,17 @@ sdk = CopilotKitRemoteEndpoint(
             description="An example for a multi-agent flow (Critic).",
             flow=MultiAgentCriticFlow(),
         ),
-        CrewAIAgent(
-            name="secret_agent_man",
-            description="An example secret agent",
-            flow=WithAuth(),
-        ),
     ],
 )
 
 add_fastapi_endpoint(app, sdk, "/copilotkit")
 
+
 @app.get("/healthz")
 def health():
     """Health check."""
     return {"status": "ok"}
+
 
 @app.get("/")
 def root():
@@ -107,6 +101,7 @@ def main():
         port=port,
         reload=True,
     )
+
 
 if __name__ == "__main__":
     main()
